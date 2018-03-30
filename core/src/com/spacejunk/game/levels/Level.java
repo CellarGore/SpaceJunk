@@ -45,9 +45,10 @@ public class Level {
     int yMax;
 
     // Velocity
-    int velocity = GameConstants.VELOCITY;
+    private int velocity = GameConstants.VELOCITY;
+    private int velocityModifier = 0;
 
-    int maxLives = GameConstants.MAX_LIVES;
+    private int maxLives = GameConstants.MAX_LIVES;
 
     private double scoringRate = GameConstants.SCORING_RATE;
 
@@ -81,6 +82,8 @@ public class Level {
         this.inventoryObjects.add(new InvisibilityConsumable(this));
 
         this.currentGame = currentGame;
+        currentGame.getCharacter().setSpeedModifier(velocity);
+
     }
 
     /**
@@ -161,8 +164,7 @@ public class Level {
         }
     }
 
-    // I made the obstacle hitboxes 75% of normal size because
-    // corners collide while textures weren't touching
+    // update hitboxes
     public void updateObstacleShapeCoordinates() {
         for (Obstacle o : obstaclesList) {
             o.getObstacleShape().set(o.getX(), o.getY(),
@@ -187,10 +189,6 @@ public class Level {
         this.yMax = yMax;
     }
 
-    public int getVelocity() {
-        return (int) (this.velocity * GameScreen.SCALE_X_FACTOR);
-    }
-
     public int getXMax() {
         return this.xMax;
     }
@@ -201,6 +199,21 @@ public class Level {
 
     public double getScoringRate() {
         return this.scoringRate;
+    }
+
+    public int getVelocity() {
+        return (int) (this.velocity * GameScreen.SCALE_X_FACTOR);
+    }
+
+    //modifier must be in the range -5 to +5
+    public void setVelocityMod(int modifier) {
+        this.velocityModifier = modifier;
+        this.velocity = GameConstants.VELOCITY + modifier;
+    }
+
+    //modifier must be in the range -3 to +3
+    public int getVelocityMod() {
+        return this.velocityModifier;
     }
 
     public int getMaxLives() {

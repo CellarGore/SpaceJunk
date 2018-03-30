@@ -1,5 +1,6 @@
 package com.spacejunk.game.characters;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -56,6 +57,8 @@ public abstract class Character {
     protected int FRAME_ROWS;
 
     protected Pixmap pixmap;
+
+    private int speedModifier = 0;
 
     // Remaining Lives; how many hits can be taken
     private int remainingLives = GameConstants.MAX_LIVES;
@@ -182,7 +185,7 @@ public abstract class Character {
     public void updateCharacterPosition(boolean toAnimate) {
 
         if(toAnimate) {
-            float moveDistance = GameConstants.VERTICAL_SPEED * GameScreen.SCALE_Y_FACTOR;
+            float moveDistance = (GameConstants.VERTICAL_SPEED + speedModifier) * GameScreen.SCALE_X_FACTOR;
             if (this.currentY < this.targetY) {
                 if (this.currentY + (moveDistance) < this.targetY) {
                     this.currentY += (moveDistance);
@@ -298,6 +301,8 @@ public abstract class Character {
     public int[] getCoordinates() {
         return new int[]{ (int)this.getCharacterShape().getX(), (int)this.getCharacterShape().getY()};
     }
+
+    public void setSpeedModifier(int vMod) { this.speedModifier = vMod; }
 
     public int getInitialX() {
         return this.initialX;

@@ -28,6 +28,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.ShareVideo;
 import com.facebook.share.model.ShareVideoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.spacejunk.game.constants.GameConstants;
 import com.spacejunk.game.interfaces.SystemServices;
 
 import java.io.File;
@@ -136,6 +137,23 @@ public class AndroidLauncher extends AndroidApplication implements SystemService
         ed.putBoolean("record", record);
         ed.putBoolean("vibrate", vibrate);
 
+        ed.apply();
+    }
+
+    @Override
+    public int getSpeed() {
+	    SharedPreferences sharedPrefs = getSharedPreferences("spaceJunkPrefs", MODE_PRIVATE);
+
+	    return sharedPrefs.getInt("speed", GameConstants.DEFAULT_SPEED_MODIFIER);
+    }
+
+    @Override
+    public void setSpeed(int speed) {
+        SharedPreferences sharedPrefs = getSharedPreferences("spaceJunkPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor  ed = sharedPrefs.edit();
+
+        //Set value
+        ed.putInt("speed", speed);
         ed.apply();
     }
 
